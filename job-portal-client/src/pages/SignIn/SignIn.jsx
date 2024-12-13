@@ -1,6 +1,7 @@
 import Lottie from "lottie-react";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext/AuthContext";
+import loginAnimation from "../../assets/lottie/login.json"
 
 const SignIn = () => {
 
@@ -30,7 +31,7 @@ const SignIn = () => {
                 <div className="hero-content flex-col lg:flex-row-reverse border md:p-32">
                     <div className="text-center lg:text-left">
                         <p className="py-6 w-52">
-                            {/* <Lottie animationData={registerAnimation}></Lottie> */}
+                            <Lottie animationData={loginAnimation}></Lottie>
                         </p>
                     </div>
                     <div className="card bg-base-100 shrink-0 shadow-2xl">
