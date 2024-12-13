@@ -30,8 +30,12 @@ async function run() {
     await client.connect();
 
 
+    const jobsCollection = client.db("jobPortal").collection("jobs")
 
-
+    app.get("/jobs", async (req, res) => {
+      const result = await jobsCollection.find().toArray();
+      res.send(result)
+    })
 
 
     // Send a ping to confirm a successful connection
@@ -43,10 +47,6 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-
-
-
 
 
 
