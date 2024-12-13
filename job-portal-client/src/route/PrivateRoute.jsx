@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext/AuthContext';
 import { Navigate, useLocation } from 'react-router-dom';
 
-const PrivateRoute = ({children}) => {
+const PrivateRoute = ({ children }) => {
 
-    const {user} = useContext(AuthContext)
+    const { user } = useContext(AuthContext)
     const loaction = useLocation()
 
     if (user) {
