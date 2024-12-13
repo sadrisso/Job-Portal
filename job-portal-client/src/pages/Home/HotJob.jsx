@@ -1,14 +1,16 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const HotJob = ({ job }) => {
 
-    const { title, location, category, description, company, company_logo } = job;
+    const { _id, title, location, category, description, company, company_logo } = job;
 
     return (
         <div>
             <div className="card bg-base-100 border h-[500px] py-5">
                 <figure>
                     <img
+                        className='w-[70px]'
                         src={company_logo}
                         alt="Shoes" />
                 </figure>
@@ -19,7 +21,7 @@ const HotJob = ({ job }) => {
                     <p>Company: {company}</p>
                     <p>Location: {location}</p>
                     <div className="card-actions justify-end">
-                        <button className="btn">Apply Now</button>
+                        <Link to={`/job/${_id}`}><button className="btn">Apply Now</button></Link>
                     </div>
                 </div>
             </div>
