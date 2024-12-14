@@ -1,12 +1,12 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
 
 const JobApply = () => {
 
-    const { id } = useParams()
+    const { id } = useParams();
     const { user } = useAuth();
-    console.log(user)
+    const navigate = useNavigate();
 
     const handleApply = e => {
         e.preventDefault()
@@ -32,6 +32,7 @@ const JobApply = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data)
+                navigate("/my-applications")
             })
     }
 
