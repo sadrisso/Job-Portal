@@ -1,5 +1,10 @@
+import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const AddJob = () => {
+
+    const navigate = useNavigate()
+    const { user } = useAuth()
 
     const handleSubmit = e => {
         e.preventDefault()
@@ -8,11 +13,27 @@ const AddJob = () => {
         const initialData = Object.fromEntries(formData.entries())
         console.log(initialData)
 
-        const {max, min, currency, ...newData} = initialData
+        const { max, min, currency, ...newData } = initialData
+
+        newData.salaryRange = { min, max, currency }
+        newData.requirements = newData.requirements.split("\n")
+        newData.responsibilities = newData.responsibilities.split("\n")
+
         console.log(newData)
 
-        newData.salaryRange = {min, max, currency}
-
+        fetch("http://localhost:5000/jobs", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(newData)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                if (data.insertedId) {
+                    alert("Successfully Added")
+                    navigate("/")
+                }
+            })
     }
 
     return (
@@ -36,8 +57,8 @@ const AddJob = () => {
 
                 {/* job type */}
                 <div>
-                    <select className="select select-bordered w-full max-w-xs" name="jobType">
-                        <option disabled selected>Job Type?</option>
+                    <select className="select select-bordered w-full max-w-xs" name="jobType" defaultValue="JobType?">
+                        <option disabled>JobType?</option>
                         <option>Full time</option>
                         <option>Part time</option>
                     </select>
@@ -59,8 +80,8 @@ const AddJob = () => {
                     <div className="flex gap-2">
                         <input type="number" name="min" placeholder="min" className="input input-bordered" required />
                         <input type="number" name="max" placeholder="max" className="input input-bordered" required />
-                        <select className="select select-bordered w-full max-w-xs" name="currency">
-                            <option disabled selected>Currency</option>
+                        <select className="select select-bordered w-full max-w-xs" name="currency" defaultValue="Currency">
+                            <option disabled>Currency</option>
                             <option>BDT</option>
                             <option>USD</option>
                         </select>
@@ -112,7 +133,7 @@ const AddJob = () => {
                     <label className="label">
                         <span className="label-text">HR Email</span>
                     </label>
-                    <input type="email" name="hrEmail" placeholder="hr email" className="input input-bordered" required />
+                    <input type="email" defaultValue={user?.email} readOnly name="hrEmail" placeholder="hr email" className="input input-bordered" required />
                 </div>
 
                 {/* company logo */}
