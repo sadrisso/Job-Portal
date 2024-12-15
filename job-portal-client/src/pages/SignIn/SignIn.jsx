@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext/AuthContext";
 import loginAnimation from "../../assets/lottie/login.json"
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignIn = () => {
 
@@ -21,7 +22,14 @@ const SignIn = () => {
 
         signInUser(email, password)
             .then(res => {
-                console.log(res.user)
+                console.log(res.user.email)
+                const user = { email: email }
+
+                axios.post("http://localhost:5000/jwt", user)
+                    .then(res => {
+                        console.log(res.data)
+                    })
+
                 navigate(from)
             })
             .catch(err => {
