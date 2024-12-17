@@ -1,13 +1,19 @@
 const express = require('express');
 const cors = require('cors');
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 const app = express();
-require('dotenv').config()
+require('dotenv').config();
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 9000;
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
-app.use(cors());
+app.use(cors({
+    origin: ["http://localhost:5173"],
+    credentials: true
+}));
 app.use(express.json());
+app.use(cookieParser());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.oq68b.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
@@ -50,6 +56,21 @@ async function run() {
             const result = await jobsCollection.findOne(query);
             res.send(result);
         });
+
+
+        app.post("/jwt", async (req, res) => {
+            const user = req.body;
+            const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "5h" })
+            res.cookie("token", token, { httpOnly: true, secure: false }).send({ success: true })
+        })
+
+        app.post("/logout", (req, res) => {
+            res.clearCookie("token", {
+                httpOnly: true,
+                secure: false
+            })
+                .send({ success: true })
+        })
 
         app.post('/jobs', async (req, res) => {
             const newJob = req.body;
