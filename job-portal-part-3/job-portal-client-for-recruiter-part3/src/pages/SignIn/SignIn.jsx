@@ -4,12 +4,12 @@ import loginLottieJSON from '../../assets/lottie/login.json'
 import AuthContext from '../../context/AuthContext/AuthContext';
 import SocialLogin from '../shared/SocialLogin';
 import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const SignIn = () => {
     const { singInUser } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate();
-    console.log('in signIn page', location)
     const from = location.state || '/';
 
     const handleSignIn = e => {
@@ -22,8 +22,6 @@ const SignIn = () => {
         singInUser(email, password)
             .then(result => {
                 console.log('sign in', result.user)
-
-                axios.post("", )
                 navigate(from);
             })
             .catch(error => {

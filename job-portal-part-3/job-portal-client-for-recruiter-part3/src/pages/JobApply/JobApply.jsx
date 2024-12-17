@@ -26,7 +26,7 @@ const JobApply = () => {
             resume
         }
 
-        fetch('http://localhost:5000/job-applications', {
+        fetch('http://localhost:9000/job-applications', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
