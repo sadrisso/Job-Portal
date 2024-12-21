@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import axios from "axios";
 
 const AddJob = () => {
 
@@ -21,19 +22,14 @@ const AddJob = () => {
 
         console.log(newData)
 
-        fetch("http://localhost:5000/jobs", {
-            method: "POST",
-            headers: { "content-type": "application/json" },
-            body: JSON.stringify(newData)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data)
-                if (data.insertedId) {
+        axios.post("http://localhost:5000/jobs", newData)
+            .then(res => {
+                console.log(res?.data)
+                if (res?.data?.insertedId) {
                     alert("Successfully Added")
                     navigate("/")
                 }
-            })
+            });
     }
 
     return (
