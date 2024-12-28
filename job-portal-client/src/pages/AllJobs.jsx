@@ -8,20 +8,31 @@ const AllJobs = () => {
     const [jobs, setJobs] = useState([]);
     const [sort, setSort] = useState(false);
     const [search, setSearch] = useState("");
+    const [minSalary, setMinSalary] = useState("");
+    const [maxSalary, setMaxSalary] = useState("");
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/all-jobs?sort=${sort}&search=${search}`)
+        axios.get(`http://localhost:8000/all-jobs?sort=${sort}&search=${search}&min=${minSalary}&max=${maxSalary}`)
             .then(res => setJobs(res.data))
-    }, [sort, search])
+    }, [sort, search, minSalary, maxSalary])
 
 
     return (
         <div className="mt-20">
-            <div className="flex justify-between mb-10 px-2">
+            <div className="flex justify-between items-center mb-10 px-2 bg-slate-400 p-5">
                 <h1 className="text-4xl font-bold text-center text-gray-600">All jobs</h1>
-                <div className="flex gap-2">
+                <div className="flex items-center gap-2">
+                    <div className="flex gap-2 items-center">
+                        <label className="input input-bordered flex items-center gap-2">
+                            <input onKeyUp={(e) => setMinSalary(e.target.value)} type="text" className="grow" placeholder="Min Salary" />
+                        </label>
+
+                        <label className="input input-bordered flex items-center gap-2">
+                            <input onKeyUp={(e) => setMaxSalary(e.target.value)} type="text" className="grow" placeholder="Max Salary" />
+                        </label>
+                    </div>
                     <label className="input input-bordered flex items-center gap-2">
-                        <input onKeyUp={(e) => setSearch(e.target.value)} type="text" className="grow" placeholder="Search" />
+                        <input onKeyUp={(e) => setSearch(e.target.value)} type="text" className="grow" placeholder="Search By Loation" />
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 16 16"
@@ -55,6 +66,8 @@ const AllJobs = () => {
                             <div className="my-5">
                                 <h2 className="card-title">{job?.location}</h2>
                                 <p>Job Type: {job?.jobType}</p>
+                                <p>Min Salary: {job?.salaryRange.min}</p>
+                                <p>Max Salary: {job?.salaryRange.max}</p>
                                 <div className="card-actions justify-end">
                                     <button className="btn btn-primary">Buy Now</button>
                                 </div>

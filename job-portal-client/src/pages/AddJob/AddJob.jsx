@@ -16,7 +16,7 @@ const AddJob = () => {
 
         const { max, min, currency, ...newData } = initialData
 
-        newData.salaryRange = { min, max, currency }
+        newData.salaryRange = { min: parseInt(min), max: parseInt(max), currency }
         newData.requirements = newData.requirements.split("\n")
         newData.responsibilities = newData.responsibilities.split("\n")
 
