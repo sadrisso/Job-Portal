@@ -24,7 +24,7 @@ const JobApply = () => {
             github
         }
 
-        fetch("http://localhost:5000/job-applications", {
+        fetch("http://localhost:8000/job-applications", {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify(jobApplication)

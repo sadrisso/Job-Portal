@@ -9,7 +9,7 @@ const MyPostedJobs = () => {
 
 
     useEffect(() => {
-        fetch(`http://localhost:5000/jobs?email=${user?.email}`)
+        fetch(`http://localhost:8000/jobs?email=${user?.email}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data)

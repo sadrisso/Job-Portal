@@ -10,7 +10,7 @@ const Navbar = () => {
         <Link to="/my-applications">MyApplications</Link>
         <Link to="/addJobs">AddJob</Link>
         <Link to="/myPostedJobs">MyPostedJobs</Link>
-        <Link to="/">Home</Link>
+        <Link to="/all-jobs">All Jobs</Link>
     </div>
 
     const { user, signOutUser } = useContext(AuthContext);

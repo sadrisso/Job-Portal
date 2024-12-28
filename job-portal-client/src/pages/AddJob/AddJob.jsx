@@ -22,7 +22,7 @@ const AddJob = () => {
 
         console.log(newData)
 
-        axios.post("http://localhost:5000/jobs", newData)
+        axios.post("http://localhost:8000/jobs", newData)
             .then(res => {
                 console.log(res?.data)
                 if (res?.data?.insertedId) {
