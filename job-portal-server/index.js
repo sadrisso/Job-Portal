@@ -3,7 +3,7 @@ const cors = require('cors');
 const jwt = require("jsonwebtoken")
 const cookieParser = require("cookie-parser")
 require('dotenv').config()
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8000;
 const app = express();
 
 
@@ -28,8 +28,10 @@ const verifyToken = (req, res, next) => {
     if (err) {
       return res.status(403).send({ message: "Unauthorized token" })
     }
+    req.user = decoded
     next();
   })
+
 }
 
 
@@ -66,6 +68,20 @@ async function run() {
     })
 
 
+    app.get("/all-jobs", async (req, res) => {
+      const sort = req?.query?.sort;
+
+      let sortQuery = {}
+
+      if (sort) {
+        sortQuery = {"salaryRange.min" : -1}
+      }
+
+      const result = await jobsCollection.find().sort(sortQuery).toArray()
+      res.send(result)
+    })
+
+
     //Token releted apis
     app.post("/jwt", async (req, res) => {
       const user = req.body;
@@ -90,6 +106,10 @@ async function run() {
     app.get("/job-applications", verifyToken, async (req, res) => {
       const email = req.query.email
       const filter = { applicant_email: email }
+
+      if (req.user.email !== req.query.email) {
+        return res.status(403).send({ message: "Forbidden" })
+      }
 
       console.log("cuk cuk cookies", req.cookies)
       const result = await applicationCollection.find(filter).toArray()
